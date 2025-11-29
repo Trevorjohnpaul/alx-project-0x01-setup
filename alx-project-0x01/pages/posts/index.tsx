@@ -1,6 +1,12 @@
 import PostCard from "@/components/common/PostCard";
 import Header from "@/components/layout/Header";
-import { PostProps } from "@/interfaces";
+// Define PostProps interface locally if not exported from "@/interfaces"
+interface PostProps {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
 
 // Posts component
 const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
