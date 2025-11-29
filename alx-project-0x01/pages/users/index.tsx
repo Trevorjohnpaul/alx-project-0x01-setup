@@ -1,33 +1,36 @@
-import Header from "@/components/layout/Header";
+import { useState } from "react";
 import UserCard from "@/components/common/UserCard";
-import { UserProps } from "@/interfaces";
+import UserModal from "@/components/common/UserModal";
+import { UserData } from "@/interfaces";
 
-const Users: React.FC<{ posts: UserProps[] }> = ({ posts }) => {
+export default function UsersPage() {
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const handleAddUser = (user: UserData) => {
+    setUsers([...users, user]);
+  };
+
   return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      <main className="p-4">
-        <h1 className="text-2xl font-semibold mb-4">Users List</h1>
+    <div className="p-6">
+      <button
+        onClick={() => setOpen(true)}
+        className="bg-green-600 text-white px-4 py-2 rounded mb-4"
+      >
+        Add User
+      </button>
 
-        <div className="grid grid-cols-3 gap-4">
-          {posts.map((user: UserProps, key: number) => (
-            <UserCard {...user} key={key} />
-          ))}
-        </div>
-      </main>
+      <UserModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onAddUser={handleAddUser}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {users.map((user) => (
+          <UserCard key={user.id} {...user} />
+        ))}
+      </div>
     </div>
   );
-};
-
-export async function getStaticProps() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/users");
-  const posts = await response.json();
-
-  return {
-    props: {
-      posts,
-    },
-  };
 }
-
-export default Users;
