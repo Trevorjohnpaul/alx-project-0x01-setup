@@ -24,6 +24,7 @@ export default function UsersPage() {
         isOpen={open}
         onClose={() => setOpen(false)}
         onAddUser={handleAddUser}
+        onSubmit={(post: any) => handleAddUser(post)}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
